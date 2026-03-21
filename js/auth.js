@@ -69,7 +69,10 @@ function setupSignUp() {
 
     const { error } = await sb.auth.signUp({
       email, password,
-      options: { data: { full_name, username } }
+      options: {
+        data: { full_name, username },
+        emailRedirectTo: window.location.origin + '/callback.html'
+      }
     });
 
     if (error) {
@@ -94,7 +97,7 @@ function setupForgot() {
     btn.textContent = 'Sending…'; btn.disabled = true;
 
     const { error } = await sb.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + '/app.html'
+      redirectTo: window.location.origin + '/callback.html'
     });
 
     if (error) {
