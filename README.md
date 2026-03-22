@@ -8,7 +8,7 @@
 
 ## 📸 Overview
 
-PracticeLog is a full-featured music practice tracking web app that helps musicians stay consistent, monitor progress, and achieve their musical goals. Built with vanilla HTML/CSS/JavaScript on the frontend and Supabase for auth, database, and file storage.
+PracticeLog is a full-featured music practice tracking web app that helps musicians stay consistent, monitor progress, and achieve their musical goals. Built with vanilla HTML/CSS/JavaScript on the frontend and MySQL for auth, database, and file storage.
 
 ---
 
@@ -59,7 +59,7 @@ PracticeLog is a full-featured music practice tracking web app that helps musici
 - Delete goals when completed
 
 ### 👤 Profile
-- Upload a profile avatar (stored in Supabase Storage)
+- Upload a profile avatar (stored in MySQL Storage)
 - Edit full name, username, bio
 - Set daily practice goal (minutes)
 - View personal stats: total sessions, total hours, current streak
@@ -92,11 +92,11 @@ PracticeLog is a full-featured music practice tracking web app that helps musici
 | Layer | Technology |
 |-------|-----------|
 | Frontend | HTML5, Vanilla CSS, Vanilla JavaScript (ES2020+) |
-| Backend / Auth | [Supabase](https://supabase.com) (Auth, PostgreSQL, Storage) |
+| Backend / Auth | [MySQL](https://MySQL.com) (Auth, PostgreSQL, Storage) |
 | Local Dev Server | Node.js + Express |
 | Fonts | Google Fonts — Inter |
 | Hosting | [Vercel](https://vercel.com) |
-| Supabase SDK | `@supabase/supabase-js` v2 (via CDN) |
+| MySQL SDK | `@MySQL/MySQL-js` v2 (via CDN) |
 
 ---
 
@@ -108,7 +108,7 @@ smart-practice-tracker/
 ├── client/                      # All frontend files
 │   ├── index.html               # Auth page (Sign In / Sign Up)
 │   ├── app.html                 # Main application (protected)
-│   ├── callback.html            # Supabase auth callback handler
+│   ├── callback.html            # MySQL auth callback handler
 │   ├── terms.html               # Terms & Conditions page
 │   │
 │   ├── css/
@@ -116,7 +116,7 @@ smart-practice-tracker/
 │   │   └── auth.css             # Auth page styles
 │   │
 │   └── js/
-│       ├── supabase-client.js   # Supabase client initialization
+│       ├── MySQL-client.js   # MySQL client initialization
 │       ├── auth.js              # Sign in / Sign up / Reset password logic
 │       └── app.js               # Full app logic (sessions, analytics, goals, etc.)
 │
@@ -129,7 +129,7 @@ smart-practice-tracker/
 
 ---
 
-## 🗄️ Database Schema (Supabase)
+## 🗄️ Database Schema (MySQL)
 
 ### `profiles`
 | Column | Type | Description |
@@ -138,7 +138,7 @@ smart-practice-tracker/
 | `username` | TEXT (unique) | Public username |
 | `full_name` | TEXT | Display name |
 | `bio` | TEXT | Short biography |
-| `avatar_url` | TEXT | Supabase Storage URL |
+| `avatar_url` | TEXT | MySQL Storage URL |
 | `daily_goal_minutes` | INTEGER | Daily practice target |
 | `created_at` | TIMESTAMPTZ | Join date |
 
@@ -192,7 +192,7 @@ smart-practice-tracker/
 
 ### Prerequisites
 - [Node.js](https://nodejs.org) v18+
-- A [Supabase](https://supabase.com) account (free tier works)
+- A [MySQL](https://MySQL.com) account (free tier works)
 
 ### 1. Clone the repository
 ```bash
@@ -205,9 +205,9 @@ cd smart-practice-tracker
 npm install
 ```
 
-### 3. Set up Supabase
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Go to **SQL Editor** and run the full schema from [`supabase_schema.sql`](#) (see below)
+### 3. Set up MySQL
+1. Create a new project at [MySQL.com](https://MySQL.com)
+2. Go to **SQL Editor** and run the full schema from [`MySQL_schema.sql`](#) (see below)
 3. Go to **Authentication → URL Configuration** and set:
    - **Site URL:** `http://localhost:8080`
    - **Redirect URLs:** `http://localhost:8080/**`
@@ -215,15 +215,15 @@ npm install
 ### 4. Configure environment variables
 Create a `.env` file in the project root:
 ```env
-SUPABASE_URL=https://your-project-id.supabase.co
-SUPABASE_ANON_KEY=your-anon-key-here
+MySQL_URL=https://your-project-id.MySQL.co
+MySQL_ANON_KEY=your-anon-key-here
 PORT=8080
 ```
 
-Also update `client/js/supabase-client.js` with your actual keys:
+Also update `client/js/MySQL-client.js` with your actual keys:
 ```js
-const SUPABASE_URL = 'https://your-project-id.supabase.co';
-const SUPABASE_ANON_KEY = 'your-anon-key-here';
+const MySQL_URL = 'https://your-project-id.MySQL.co';
+const MySQL_ANON_KEY = 'your-anon-key-here';
 ```
 
 ### 5. Run locally
@@ -234,13 +234,13 @@ Open [http://localhost:8080](http://localhost:8080) in your browser.
 
 ---
 
-## 🗄️ Supabase SQL Setup
+## 🗄️ MySQL SQL Setup
 
-Run this in your **Supabase SQL Editor** (Project → SQL Editor → New Query):
+Run this in your **MySQL SQL Editor** (Project → SQL Editor → New Query):
 
 ```sql
 -- Create all tables, RLS policies, storage bucket, and triggers
--- (Full schema file provided separately as supabase_schema.sql)
+-- (Full schema file provided separately as MySQL_schema.sql)
 ```
 
 The schema includes:
@@ -270,8 +270,8 @@ If your repo has the full `client/` folder structure:
 2. **Root Directory** → type `client`
 3. Click **Save** → **Redeploy**
 
-### Update Supabase for Production
-Go to **Supabase → Authentication → URL Configuration**:
+### Update MySQL for Production
+Go to **MySQL → Authentication → URL Configuration**:
 - **Site URL:** `https://yourapp.vercel.app`
 - **Redirect URLs:** Add `https://yourapp.vercel.app/**` and `http://localhost:8080/**`
 
@@ -279,7 +279,7 @@ Go to **Supabase → Authentication → URL Configuration**:
 
 ## 📧 Email Templates
 
-Two custom branded email templates are configured in Supabase:
+Two custom branded email templates are configured in MySQL:
 
 **Confirm Signup** → Sent when user registers  
 **Reset Password** → Sent when user requests password reset
@@ -287,7 +287,7 @@ Two custom branded email templates are configured in Supabase:
 Both emails:
 - Match PracticeLog's dark purple brand (#7c6af7)
 - Use fully inline CSS (compatible with Gmail, Outlook, Apple Mail)
-- Include the `{{ .ConfirmationURL }}` placeholder (Supabase auto-fills)
+- Include the `{{ .ConfirmationURL }}` placeholder (MySQL auto-fills)
 - Route through `/callback.html` which handles the token exchange
 
 ---
@@ -296,12 +296,12 @@ Both emails:
 
 ```
 Sign Up
-  └─→ Supabase sends confirmation email
+  └─→ MySQL sends confirmation email
         └─→ User clicks link → /callback.html
               └─→ SIGNED_IN event → redirect to /app.html ✅
 
 Forgot Password
-  └─→ Supabase sends reset email
+  └─→ MySQL sends reset email
         └─→ User clicks link → /callback.html
               └─→ PASSWORD_RECOVERY event → show "Set New Password" form
                     └─→ User submits → redirect to /app.html ✅
@@ -313,7 +313,7 @@ Forgot Password
 
 - All database tables have **Row Level Security (RLS)** — users can never access other users' data
 - Avatar uploads are restricted to the user's own folder (`{user_id}/avatar.ext`)
-- Auth tokens managed entirely by Supabase (no manual JWT handling)
+- Auth tokens managed entirely by MySQL (no manual JWT handling)
 - Anon key is safe to use client-side (it's a public key by design)
 - Environment variables used for local development
 - Security headers added via `vercel.json` (`X-Frame-Options`, `X-XSS-Protection`, etc.)
@@ -322,8 +322,8 @@ Forgot Password
 
 ## 🧩 Key Implementation Details
 
-### Client-Side Supabase (No Backend Needed)
-All data operations go directly from the browser to Supabase using the JS SDK. The Express server is only used for local development to serve static files.
+### Client-Side MySQL (No Backend Needed)
+All data operations go directly from the browser to MySQL using the JS SDK. The Express server is only used for local development to serve static files.
 
 ### Dynamic Redirect URLs
 ```js
@@ -341,7 +341,7 @@ Streaks are calculated by comparing the new session's date with `last_practice_d
 The practice heatmap groups sessions by date into a week × day grid, calculates intensity levels (0–4) based on minutes relative to the user's maximum day, and renders HTML cells with CSS classes `l0`–`l4`.
 
 ### Achievement Detection
-After every session save, the app checks all 10 achievement conditions against the current data and batch-inserts any newly unlocked achievements using Supabase's `upsert` with `ignoreDuplicates: true`.
+After every session save, the app checks all 10 achievement conditions against the current data and batch-inserts any newly unlocked achievements using MySQL's `upsert` with `ignoreDuplicates: true`.
 
 ---
 
@@ -381,10 +381,10 @@ Built with ❤️ for musicians everywhere.
 
 ## 🙏 Acknowledgements
 
-- [Supabase](https://supabase.com) — open source Firebase alternative
+- [MySQL](https://MySQL.com) — open source Firebase alternative
 - [Vercel](https://vercel.com) — deployment platform
 - [Inter Font](https://fonts.google.com/specimen/Inter) — Google Fonts
-- [Supabase JS v2](https://github.com/supabase/supabase-js) — client library
+- [MySQL JS v2](https://github.com/MySQL/MySQL-js) — client library
 
 ---
 
